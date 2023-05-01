@@ -1,4 +1,5 @@
 <script >
+import Chat from './Chat.vue'
 import { onMounted } from 'vue'
 export default ({
   setup() {
