@@ -2,7 +2,7 @@
   <div v-for="message in chat.message">
     {{ message }}
   </div>
-  <input type="text" placeholder="Type your message here.." v-model="message">
+  <input type="text" name="message" placeholder="Type your message here.." v-model="message">
   <button @click="send" >
       SEND
   </button>
@@ -15,16 +15,24 @@ export default {
       message:'',
       chat:{
         message:[],
-      }
+      },
     }
   },
+  // created() {
+  //       this.fetchMessages();
+  //       window.Echo.private('chat')
+  //       .listen('ChatEvent', (e) => {
+  //       this.messages.push({
+  //     message: e.message.message,
+  //     user: e.user});
+  //   });
+  //   },
   mounted(){
-        window.Echo.private('dashboard')
+        window.Echo.private('chat')
         .listen('ChatEvent', (e) => {
             console.log(e);
         });
     },
-
   methods:{
     send(){
       if(this.message.length !=0){

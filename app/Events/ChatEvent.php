@@ -10,6 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\User;
+use App\Models\Message;
 
 class ChatEvent implements ShouldBroadcast
 {
@@ -34,6 +35,6 @@ class ChatEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('dashboard');
+        return new PrivateChannel('chat');
     }
 }
