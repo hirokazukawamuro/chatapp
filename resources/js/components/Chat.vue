@@ -3,7 +3,7 @@
     {{ message }}
   </div>
   <input type="text" name="message" placeholder="Type your message here.." v-model="message">
-  <button @click="send" >
+  <button @click="send">
       SEND
   </button>
 </template>
@@ -31,13 +31,20 @@ export default {
         window.Echo.private('chat')
         .listen('ChatEvent', (e) => {
             console.log(e);
+            this.chat.message.push(e.message);
         });
     },
   methods:{
+    //仮案↓
+    // multipleMethod() {
+    //   this.send();
+    //   this.fetchMessages();
+    //   this.addMessage();
+    // },
     send(){
       if(this.message.length !=0){
         this.chat.message.push(this.message)
-        this.message='';
+        // this.message='';
         axios.post('/send', {
       message: this.message
       })
@@ -54,7 +61,7 @@ export default {
             //GET request to the messages route in our Laravel server to fetch all the messages
             axios.get('/messages').then(response => {
                 //Save the response in the messages array to display on the chat view
-                this.messages = response.data;
+                this.message = response.data;
             });
         },
         //Receives the message that was emitted from the ChatForm Vue component
