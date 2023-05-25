@@ -1,11 +1,37 @@
-<template>
-  <h1>TALK ROOM</h1>
-  <p>Mr.A</p>
-  <p>Mr.B</p>
-  <p>Mr.C</p>
-  <p>Mr.D</p>
 
-</template>
+
+<template>
+   <h1>ユーザ一覧</h1>
+  <div v-for="user in users">
+    {{ user }}
+  </div>
+  
+  </template>
+
+<script>
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      users: [],
+    };
+  },
+  mounted() {
+    axios
+      .get('/user')
+      .then(response => {
+        // handle success
+        this.users = response.data.users; // users配列を受け取る
+        console.log(response.data);
+      })
+      .catch(error => {
+        // handle error
+        console.log(error);
+      });
+  },
+};
+</script>
 
 <style>
 h1{

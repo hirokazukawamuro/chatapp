@@ -1,11 +1,15 @@
 <template>
-  <div v-for="message in chat.message">
-    {{ message }}
+  <div class="message-container">
+    <div v-for="message in chat.message">
+      {{ message }}
+    </div>
+    <div class="user-area">
+      <input type="text" name="message" placeholder="Type your message here.." v-model="message">
+      <button @click="send">
+          SEND
+      </button>
+    </div>
   </div>
-  <input type="text" name="message" placeholder="Type your message here.." v-model="message">
-  <button @click="send">
-      SEND
-  </button>
 </template>
 
 <script>
@@ -94,5 +98,15 @@ button{
   padding: 5px 10px;
   border-radius: 5px;
   margin-left:10px;
+}
+
+.message-container {
+  position: relative;
+  padding-bottom: 3rem;
+}
+
+.user-area{
+  position: absolute;
+  bottom: 0;
 }
 </style>

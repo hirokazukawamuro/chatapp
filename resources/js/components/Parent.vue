@@ -12,7 +12,22 @@ export default ({
 })
 </script>
 <template>
-  <List />
-  <Chat />
+  <div class="container">
+    <div class="component">
+      <List />
+    </div>
+    <div class="component">
+      <Chat />
+    </div>
+  </div>
 </template>
 
+<style scoped>
+.container {
+  display: flex;
+}
+
+.component {
+  flex: 1;
+}
+</style>
