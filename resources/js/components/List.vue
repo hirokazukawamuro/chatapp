@@ -2,9 +2,11 @@
 
 <template>
    <h1>ユーザ一覧</h1>
-  <div v-for="user in users">
-    {{ user }}
-  </div>
+    <ul>
+      <li v-for="user in users">
+        <router-link :to="`/chat/${user.id}`">{{ user.name }}</router-link>
+      </li>
+    </ul>
   
   </template>
 

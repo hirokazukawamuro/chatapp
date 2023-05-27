@@ -27,7 +27,7 @@ class ChatController extends Controller
 
     public function user(Request $request)
     {
-        $users = User::pluck('name');
+        $users = User::all();
         return response()->json(['users' => $users]);
     }
     // public function send(Request $request)

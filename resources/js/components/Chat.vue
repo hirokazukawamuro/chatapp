@@ -63,7 +63,7 @@ export default {
     },
     fetchMessages(){
             //GET request to the messages route in our Laravel server to fetch all the messages
-            axios.get('/messages').then(response => {
+            axios.get('/message').then(response => {
                 //Save the response in the messages array to display on the chat view
                 this.message = response.data;
             });
