@@ -14,8 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('messages', function (Blueprint $table) {
-            $table->integer('fromwho');
-            $table->integer('towho');
+            $table->integer('link_id');
         });
     }
 
@@ -27,8 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('messages', function (Blueprint $table) {
-            $table->dropColumn('fromwho');
-            $table->dropColumn('towho');
+            $table->dropColumn('link_id');
         });
     }
 };

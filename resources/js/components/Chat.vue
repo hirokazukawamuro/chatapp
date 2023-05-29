@@ -14,6 +14,7 @@
 
 <script>
 export default {
+  props: ['linkId', 'userId'],
   data(){
     return {
       message:'',
@@ -22,29 +23,25 @@ export default {
       },
     }
   },
-  // created() {
-  //       this.fetchMessages();
-  //       window.Echo.private('chat')
-  //       .listen('ChatEvent', (e) => {
-  //       this.messages.push({
-  //     message: e.message.message,
-  //     user: e.user});
-  //   });
-  //   },
+  
   mounted(){
+        this.fetchMessages();
         window.Echo.private('chat')
         .listen('ChatEvent', (e) => {
             console.log(e);
-            this.chat.message.push(e.message);
-        });
+            // this.chat.message.push(e.message);
+            if (e.linkId === this.linkId && e.userId === this.userId) {
+          this.messages.push(e.message);
+        }})
+        .here((users) => {
+      const currentUser = users.find(user => user.id === this.currentUserId);
+      if (currentUser) {
+        // ユーザーIDを取得できた場合、処理を行う
+        console.log('Current user:', currentUser);
+      }
+    });
     },
   methods:{
-    //仮案↓
-    // multipleMethod() {
-    //   this.send();
-    //   this.fetchMessages();
-    //   this.addMessage();
-    // },
     send(){
       if(this.message.length !=0){
         this.chat.message.push(this.message)
@@ -68,15 +65,7 @@ export default {
                 this.message = response.data;
             });
         },
-        //Receives the message that was emitted from the ChatForm Vue component
-        addMessage(message) {
-            //Pushes it to the messages array
-            this.messages.push(message);
-            //POST request to the messages route with the message data in order for our Laravel server to broadcast it.
-            axios.post('/messages', message).then(response => {
-                console.log(response.data);
-            });
-        }
+    
   }
 }
 

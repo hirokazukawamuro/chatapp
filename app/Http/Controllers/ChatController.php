@@ -15,7 +15,8 @@ class ChatController extends Controller
         // Eloquent (DBへの処理記述)
         $user = User::find(Auth::id());
         $message = $user->messages()->create([
-            'message' => $request->input('message')
+            'message' => $request->input('message'),
+            'link_id' => $request->input('link_id'),
         ]);
         event(new ChatEvent($request->message, $user));
     }
