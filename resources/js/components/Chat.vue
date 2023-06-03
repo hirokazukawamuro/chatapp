@@ -1,7 +1,7 @@
 <template>
   <div class="message-container">
-    <div v-for="message in chat.message">
-      {{ message }}
+    <div v-for="message in chat.message" :key="message.id">
+      {{ message.message }}
     </div>
     <div class="user-area">
       <input type="text" name="message" placeholder="Type your message here.." v-model="message">
@@ -14,7 +14,17 @@
 
 <script>
 export default {
-  props: ['linkId', 'userId'],
+  name: 'Chat',
+  props: {
+    linkId: {
+      type: [String, Number],
+      required: true
+    },
+    userId: {
+      type: [String, Number],
+      required: true
+    }
+  },
   data(){
     return {
       message:'',
@@ -26,46 +36,77 @@ export default {
   
   mounted(){
         this.fetchMessages();
-        window.Echo.private('chat')
+        window.Echo.private('chat.${this.linkId}')
         .listen('ChatEvent', (e) => {
             console.log(e);
-            // this.chat.message.push(e.message);
-            if (e.linkId === this.linkId && e.userId === this.userId) {
-          this.messages.push(e.message);
-        }})
-        .here((users) => {
-      const currentUser = users.find(user => user.id === this.currentUserId);
-      if (currentUser) {
-        // ユーザーIDを取得できた場合、処理を行う
-        console.log('Current user:', currentUser);
-      }
-    });
-    },
-  methods:{
-    send(){
-      if(this.message.length !=0){
-        this.chat.message.push(this.message)
-        // this.message='';
-        axios.post('/send', {
-      message: this.message
-      })
-      .then(response => {
-        console.log(response);
-        this.message = '';
-      })
-      .catch(error => {
-        console.log(error);
-      });
-      }
-    },
-    fetchMessages(){
-            //GET request to the messages route in our Laravel server to fetch all the messages
-            axios.get('/message').then(response => {
-                //Save the response in the messages array to display on the chat view
-                this.message = response.data;
-            });
-        },
+          this.chat.message.push(e.message);
+        })
+  },
+
+  // mounted(){
+  //       this.fetchMessages();
+  //       window.Echo.private('chat.${this.linkId}')
+  //       .listen('ChatEvent', (e) => {
+  //           console.log(e);
+  //           // this.chat.message.push(e.message);
+  //           if (e.linkId === this.linkId && e.userId === this.userId) {
+  //         this.chat.message.push(e.message);
+  //       }})
     
+  //   },
+  // methods:{
+  //   send(){
+  //     if(this.message.length !=0){
+  //       this.chat.message.push(this.message)
+  //       // this.message='';
+  //       axios.post('/send', {
+  //     message: this.message
+  //     })
+  //     .then(response => {
+  //       console.log(response);
+  //       this.message = '';
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  //     }
+  //   },
+  //   fetchMessages(){
+  //           //GET request to the messages route in our Laravel server to fetch all the messages
+  //           axios.get('/message').then(response => {
+  //               //Save the response in the messages array to display on the chat view
+  //               this.message = response.data;
+  //           });
+  //       },
+    
+  // }
+  methods: {
+    send() {
+      if (this.message.length !== 0) {
+        axios.post('/send', {
+            message: this.message,
+            link_id: this.$route.params.linkId,
+          })
+          .then(response => {
+            console.log(response);
+            this.message = '';
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    },
+    fetchMessages() {
+      axios.get('/message', {
+          params: {
+            link_id: this.linkId,
+            user_id: this.userId
+          }
+        })
+        .then(response => {
+          this.chat.message = response.data;
+        });
+    }
   }
 }
 

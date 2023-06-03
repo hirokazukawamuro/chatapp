@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('messages', function (Blueprint $table) {
-            $table->integer('link_id');
+            $table->integer('link_id')->nullable();
         });
     }
 

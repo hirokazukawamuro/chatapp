@@ -21,24 +21,16 @@ class ChatController extends Controller
         event(new ChatEvent($request->message, $user));
     }
 
-    public function fetchMessages()
+    public function fetchMessages(Request $request)
     {
-        return Message::with('user')->get();
+        $messages = Message::where('link_id', $request->link_id)->get();
+        return response()->json($messages);
     }
 
     public function user(Request $request)
     {
         $users = User::all();
-        return response()->json(['users' => $users]);
+        $currentUserId = auth()->check() ? auth()->user()->id : null;
+        return response()->json(['users' => $users, 'currentUserId' => $currentUserId]);
     }
-    // public function send(Request $request)
-    // {
-    //     $user = Auth::user();
-    //     $message = $user->messages()->create([
-    //         'message' => $request->input('message')
-    //     ]);
-    //     broadcast(new ChatEvent($user, $message));
-    //     return ['status' => 'Message Sent!'];
-    // }
-
 }
