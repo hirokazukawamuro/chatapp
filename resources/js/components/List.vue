@@ -5,7 +5,11 @@
    <h1>ユーザ一覧</h1>
     <ul>
       <li v-for="user in users" :key="user.id">
-        <router-link :to="{ name: 'Chat', params: { linkId: user.id, userId: currentUserId } }" :key="user.id">{{ user.name }}</router-link>
+        <router-link 
+        :to="{ name: 'Chat', params: { linkId: user.id, userId: currentUserId } }" 
+        :key="user.id" 
+        @click="selectUser(user.id)"
+        >{{ user.name }}</router-link>
       </li>
     </ul>
   
@@ -18,12 +22,22 @@ export default {
   data() {
     return {
       users: [],
-      currentUserId: 0
+      currentUserId: 0,
+      selectedUserId: null
     };
+  },
+  methods: {
+    selectUser(linkId) {
+      this.selectedUserId = linkId;
+    }
   },
   mounted() {
     axios
-      .get('/user')
+      .get('/user', {
+        params: {
+          currentUserId: this.currentUserId
+        }
+      })
       .then(response => {
         // handle success
         this.users = response.data.users; // users配列を受け取る

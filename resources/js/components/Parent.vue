@@ -15,10 +15,10 @@ export default ({
 <template>
   <div class="container">
     <div class="component">
-      <List :linkId="user.id" :userId="currentUserId"/>
+      <List />
     </div>
     <div class="component">
-      <Chat :linkId="user.id" :userId="currentUserId"/>
+      <Chat />
     </div>
   </div>
 </template>

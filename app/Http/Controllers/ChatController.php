@@ -16,14 +16,22 @@ class ChatController extends Controller
         $user = User::find(Auth::id());
         $message = $user->messages()->create([
             'message' => $request->input('message'),
-            'link_id' => $request->input('link_id'),
+            'link_id' => $request->input('linkId'),
         ]);
-        event(new ChatEvent($request->message, $user));
+        event(new ChatEvent($message, $user));
+
+        return response()->json($message);
     }
 
     public function fetchMessages(Request $request)
     {
-        $messages = Message::where('link_id', $request->link_id)->get();
+        $userId = $request->input('userId');
+        $linkId = $request->input('linkId');
+
+        // 指定されたuserIdとlinkIdに一致するメッセージを取得
+        $messages = Message::where('user_id', $userId)
+            ->where('link_id', $linkId)
+            ->get();
         return response()->json($messages);
     }
 
