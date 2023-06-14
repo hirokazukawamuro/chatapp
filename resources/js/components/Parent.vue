@@ -1,5 +1,4 @@
 <script >
-import Chat from './Chat.vue'
 import List from './List.vue'
 import { onMounted } from 'vue'
 export default ({
@@ -18,7 +17,6 @@ export default ({
       <List />
     </div>
     <div class="component">
-      <Chat />
     </div>
   </div>
 </template>

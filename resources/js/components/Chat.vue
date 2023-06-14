@@ -1,7 +1,7 @@
 <template>
   <div class="message-container">
     <div v-for="message in chat.message" :key="message.id">
-      {{ message.message }}
+      {{ message.message}}
     </div>
     <div class="user-area">
       <input type="text" name="message" placeholder="Type your message here.." v-model="message">
@@ -30,41 +30,42 @@ export default {
       message:'',
       chat:{
         message:[],
+        user:[],
       },
     }
   },
   
   mounted(){
         this.fetchMessages();
-        window.Echo.private(`chat.${this.linkId}`)
+        window.Echo.private('chat')
         .listen('ChatEvent', (e) => {
             console.log(e);
-            // this.chat.message.push(e.message);
-            if (e.linkId === this.linkId && e.userId === this.userId) {
-          this.chat.message.push(e.message);
-        }})
+            this.fetchMessages();
+            })
     
     },
   methods:{
-    send(){
-      if(this.message.length !=0){
-        this.chat.message.push(this.message)
-        // this.message='';
-        axios.post('/send', {
-      message: this.message,
-      linkId: this.linkId,
-      userId: this.userId
-      })
-      .then(response => {
-        console.log(response);
-        this.message = '';
-        this.fetchMessages();
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    send() {
+      if (this.message.length !== 0) {
+      axios
+        .post('/send', {
+          message: this.message,
+          linkId: this.linkId,
+          userId: this.userId
+        })
+        .then(response => {
+          console.log(response);
+          this.message = ''; // 入力欄をクリア
+
+          // 送信したメッセージを追加する代わりに、メッセージ一覧を再取得して更新
+          this.fetchMessages();
+        })
+        .catch(error => {
+          console.log(error);
+        });
       }
     },
+
     fetchMessages(){
             //GET request to the messages route in our Laravel server to fetch all the messages
             axios.get('/message',{
@@ -74,9 +75,10 @@ export default {
           }
         }).then(response => {
                 //Save the response in the messages array to display on the chat view
-                this.chat.message = response.data;
+                this.chat.message = response.data.messages;
+                console.log(this.chat.message);
             });
-        },
+    },
     
   }
 }

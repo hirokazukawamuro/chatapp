@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,13 +14,12 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('chat', function ($user) {
-    if (auth()->check()) {
-        return ['id' => auth()->user()->id];
-    }
-    // return true;
-    // return Auth::check();
+Broadcast::channel('chat', function () {
+    return true;
 });
+// Broadcast::channel('chat.{linkId}', function ($user, $linkId) {
+//     return Auth::check() && $user->id === (int) $linkId;
+// });
 // Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 //     return (int) $user->id === (int) $id;
 // });

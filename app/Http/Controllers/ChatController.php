@@ -7,6 +7,7 @@ use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ChatController extends Controller
 {
@@ -17,9 +18,14 @@ class ChatController extends Controller
         $message = $user->messages()->create([
             'message' => $request->input('message'),
             'link_id' => $request->input('linkId'),
+            'user_id' => $request->input('userId'),
         ]);
-        event(new ChatEvent($message, $user));
-
+        Log::debug($request->input('message'));
+        Log::debug($request->input('linkId'));
+        Log::debug($request->input('userId'));
+        Log::debug($request->input('userId'));
+        Log::debug($message);
+        event(new ChatEvent($request->message, $user));
         return response()->json($message);
     }
 
@@ -28,11 +34,13 @@ class ChatController extends Controller
         $userId = $request->input('userId');
         $linkId = $request->input('linkId');
 
-        // 指定されたuserIdとlinkIdに一致するメッセージを取得
         $messages = Message::where('user_id', $userId)
             ->where('link_id', $linkId)
+            ->orWhere('link_id', $userId)
+            ->where('user_id', $linkId)
             ->get();
-        return response()->json($messages);
+        return response()->json(['messages' => $messages]);
+        Log::debug(['messages' => $messages]);
     }
 
     public function user(Request $request)

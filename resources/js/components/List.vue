@@ -1,36 +1,14 @@
 
-
-<template>
-  
-   <h1>ユーザ一覧</h1>
-    <ul>
-      <li v-for="user in users" :key="user.id">
-        <router-link 
-        :to="{ name: 'Chat', params: { linkId: user.id, userId: currentUserId } }" 
-        :key="user.id" 
-        @click="selectUser(user.id)"
-        >{{ user.name }}</router-link>
-      </li>
-    </ul>
-  
-</template>
-
 <script>
 import axios from 'axios';
-
 export default {
   data() {
     return {
       users: [],
       currentUserId: 0,
-      selectedUserId: null
     };
   },
-  methods: {
-    selectUser(linkId) {
-      this.selectedUserId = linkId;
-    }
-  },
+  
   mounted() {
     axios
       .get('/user', {
@@ -51,6 +29,21 @@ export default {
   },
 };
 </script>
+<template>
+  
+   <h1>ユーザ一覧</h1>
+    <ul>
+      <li v-for="user in users" :key="user.id">
+        <router-link 
+        :to="{ name: 'Chat', params: { linkId: user.id, userId: currentUserId } }" 
+        :key="user.id"
+        >{{ user.name }}</router-link>
+      </li>
+    </ul>
+    <router-view></router-view>
+</template>
+
+
 
 <style>
 h1{
