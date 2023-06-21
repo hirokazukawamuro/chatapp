@@ -25,7 +25,7 @@ class ChatController extends Controller
         Log::debug($request->input('userId'));
         Log::debug($request->input('userId'));
         Log::debug($message);
-        event(new ChatEvent($request->message, $user));
+        broadcast(new ChatEvent($request->message, $user)); //Pusherに届ける内容
         return response()->json($message);
     }
 

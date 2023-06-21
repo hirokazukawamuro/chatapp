@@ -1,19 +1,25 @@
 <template>
-  <div class="message-container">
-    <div v-for="message in chat.message" :key="message.id">
+  <div class="message-container" ref="messageContainer">
+    <div :key="selectedUserName" class="who-you-talkto">
+      {{"＜"+ selectedUserName }}
+    </div>
+    <div v-for="message in chat.message" :key="message.id" class="chat-word">
       {{ message.message}}
     </div>
     <div class="user-area">
-      <input type="text" name="message" placeholder="Type your message here.." v-model="message">
-      <button @click="send">
-          SEND
-      </button>
+      <div class="parts">
+        <input type="text" name="message" placeholder="Type your message here.." v-model="message" class="input" @keypress="send">
+        <button @click="send" class="sendbutton">
+            SEND
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  
   name: 'Chat',
   props: {
     linkId: {
@@ -23,14 +29,17 @@ export default {
     userId: {
       type: [String, Number],
       required: true
-    }
+    },
+    selectedUserName:{
+      type: String,
+      required: true
+    },
   },
   data(){
     return {
       message:'',
       chat:{
         message:[],
-        user:[],
       },
     }
   },
@@ -39,15 +48,15 @@ export default {
         this.fetchMessages();
         window.Echo.private('chat')
         .listen('ChatEvent', (e) => {
+          this.chat.message.push(e.message);
             console.log(e);
             this.fetchMessages();
             })
-    
     },
   methods:{
     send() {
       if (this.message.length !== 0) {
-      axios
+        axios
         .post('/send', {
           message: this.message,
           linkId: this.linkId,
@@ -66,18 +75,23 @@ export default {
       }
     },
 
-    fetchMessages(){
-            //GET request to the messages route in our Laravel server to fetch all the messages
-            axios.get('/message',{
-          params: {
-            userId: this.userId,
-            linkId: this.linkId
-          }
-        }).then(response => {
-                //Save the response in the messages array to display on the chat view
-                this.chat.message = response.data.messages;
-                console.log(this.chat.message);
-            });
+    fetchMessages() {
+      axios.get('/message', {
+        params: {
+          userId: this.userId,
+          linkId: this.linkId
+        }
+      }).then(response => {
+        this.chat.message = response.data.messages;
+        console.log(this.chat.message);
+        this.$nextTick(() => {
+          this.scrollToBottom();
+        });
+      });
+    },
+    scrollToBottom() {
+      const container = this.$refs.messageContainer;
+      container.scrollTop = container.scrollHeight;
     },
     
   }
@@ -85,31 +99,63 @@ export default {
 
 </script>
 <style>
-h3{
-  background-color: #fcf9f9;
-  text-align: right;
+.chat-word{
+  background-color: #ffffff;
+  border: 1px solid #d8d2d2;
+  text-align: left;
+  padding: 10px 10px;
+  border-radius: 5px;
+  margin:10px 20px;
+  width: 50%;
+
 }
 
-input{
-  border-radius: 10px;
+.input{
+  width: 83%;
+  border-radius: 20px;
+  margin-right: 3%;
+  border: 1px solid #d8d2d2;  
+}
+::placeholder {
+  color: #d8d2d2;
 }
 
-button{
+.sendbutton{
+  width: 10%;
   background-color:black;
   font-family:fantasy;
   color: #fcf9f9;
   padding: 5px 10px;
   border-radius: 5px;
-  margin-left:10px;
 }
 
 .message-container {
-  position: relative;
-  padding-bottom: 3rem;
+  /* position: relative; */
+  /* padding-bottom: 3rem; */
+  overflow-y: scroll;
+  height: 550px;
+}
+
+.who-you-talkto{
+  width: 100%;
+  height: 50px;
+  /* position: absolute;
+  bottom: 0; */
+  background-color:#e5e3e3;
+  padding: 9px 30px 9px 0px;
+  border-bottom: thin solid #000000;
 }
 
 .user-area{
-  position: absolute;
-  bottom: 0;
+  width: 100%;
+  /* position: absolute;
+  bottom: 0; */
+  background-color:#fcf9f9;
+  padding: 9px 30px 9px 0px;
+}
+.parts{
+  text-align:end;
+  width: 100%;
+  margin: 5px;
 }
 </style>

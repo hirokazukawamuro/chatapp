@@ -16,8 +16,6 @@ export default ({
     <div class="component">
       <List />
     </div>
-    <div class="component">
-    </div>
   </div>
 </template>
 
@@ -27,6 +25,7 @@ export default ({
 }
 
 .component {
-  flex: 1;
+  width: 100%;
+  height: 100%;
 }
 </style>
