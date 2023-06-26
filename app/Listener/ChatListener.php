@@ -5,6 +5,7 @@ namespace App\Listener;
 use App\Events\ChatEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Event;
 
 class ChatListener
 {

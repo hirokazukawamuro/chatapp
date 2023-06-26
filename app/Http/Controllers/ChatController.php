@@ -20,11 +20,6 @@ class ChatController extends Controller
             'link_id' => $request->input('linkId'),
             'user_id' => $request->input('userId'),
         ]);
-        Log::debug($request->input('message'));
-        Log::debug($request->input('linkId'));
-        Log::debug($request->input('userId'));
-        Log::debug($request->input('userId'));
-        Log::debug($message);
         broadcast(new ChatEvent($request->message, $user)); //Pusherに届ける内容
         return response()->json($message);
     }

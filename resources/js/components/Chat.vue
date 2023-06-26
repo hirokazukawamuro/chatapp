@@ -1,14 +1,14 @@
 <template>
   <div class="message-container" ref="messageContainer">
     <div :key="selectedUserName" class="who-you-talkto">
-      {{"＜"+ selectedUserName }}
+      {{"＜ "+ selectedUserName }}
     </div>
     <div v-for="message in chat.message" :key="message.id" class="chat-word">
       {{ message.message}}
     </div>
     <div class="user-area">
       <div class="parts">
-        <input type="text" name="message" placeholder="Type your message here.." v-model="message" class="input" @keypress="send">
+        <input type="text" name="message" placeholder="Type your message here.." v-model="message" class="input" @keypress="send"> 
         <button @click="send" class="sendbutton">
             SEND
         </button>
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import Echo from 'laravel-echo';
 export default {
   
   name: 'Chat',
@@ -46,6 +47,7 @@ export default {
   
   mounted(){
         this.fetchMessages();
+        console.log("コンソメ");
         window.Echo.private('chat')
         .listen('ChatEvent', (e) => {
           this.chat.message.push(e.message);
@@ -59,7 +61,7 @@ export default {
         axios
         .post('/send', {
           message: this.message,
-          linkId: this.linkId,
+          linkId: this.linkId,  
           userId: this.userId
         })
         .then(response => {
@@ -139,10 +141,12 @@ export default {
 .who-you-talkto{
   width: 100%;
   height: 50px;
+  font-size: 25px;
+  font-weight:400;
   /* position: absolute;
   bottom: 0; */
   background-color:#e5e3e3;
-  padding: 9px 30px 9px 0px;
+  padding: 9px 30px 15px 0px;
   border-bottom: thin solid #000000;
 }
 

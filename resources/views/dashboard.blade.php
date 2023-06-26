@@ -3,9 +3,6 @@
     <div class="bg-orggray h-screen flex">
         <div id="app" class="flex-grow">
         </div>
-        <!-- </div>
-            </div>
-        </div> -->
     </div>
 </x-app-layout>
 
