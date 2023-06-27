@@ -29,14 +29,24 @@ class ChatController extends Controller
         $userId = $request->input('userId');
         $linkId = $request->input('linkId');
 
-        $messages = Message::where('user_id', $userId)
+        $messages = Message::with('user')
+            ->where('user_id', $userId)
             ->where('link_id', $linkId)
             ->orWhere('link_id', $userId)
             ->where('user_id', $linkId)
             ->get();
-        return response()->json(['messages' => $messages]);
-        Log::debug(['messages' => $messages]);
+
+        $messagesWithUser = $messages->map(function ($message) {
+            return [
+                'id' => $message->id,
+                'user' => $message->user ? $message->user->toArray() : null,
+                'message' => $message->message,
+            ];
+        });
+
+        return response()->json(['messages' => $messagesWithUser]);
     }
+
 
     public function user(Request $request)
     {

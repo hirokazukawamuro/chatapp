@@ -53,7 +53,7 @@ export default {
     </div>
     
     <div  class="childrenBox2">
-      <router-view :selectedUserName="selectedUserName" ref="child"></router-view>
+      <router-view :selectedUserName="selectedUserName" :users="users" ref="child"></router-view>
     </div>
 
   </div>
