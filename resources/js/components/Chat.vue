@@ -3,9 +3,11 @@
     <div :key="selectedUserName" class="who-you-talkto">
       {{ "＜ " + selectedUserName }}
     </div>
-    <div v-for="message in chat.message" :key="message.id" class="message-parent">
-      <span class="sender-name">{{ getMessageSenderName(message.user.id) }}</span>
-      <span class="chat-word">{{ message.message }}</span>
+    <div v-for="message in chat.message" :key="message.id" class="message-parent" :class="[isCurrentUser(message.user.id) ? 'align-right' : '']">
+      <div class="message-content">
+        <span class="sender-name">{{ getMessageSenderName(message.user.id) }}</span>
+        <span class="chat-word" >{{ message.message }}</span>
+      </div>
     </div>
     <div class="user-area">
       <div class="parts">
@@ -49,7 +51,9 @@ export default {
       chat: {
         message: [],
       },
+      alignright: ref(false),
     };
+    
   },
 
   mounted() {
@@ -62,6 +66,9 @@ export default {
     });
   },
   methods: {
+    isCurrentUser(userId) {
+    return userId === parseInt(this.userId);
+  },
     send() {
       if (this.message.length !== 0) {
         axios
@@ -114,22 +121,31 @@ export default {
 </script>
 
 <style>
-.message-parent{
-  display:flex;
-  flex-flow: column;
+.align-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  }
+
+.message-content{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .sender-name{
   padding-left: 40px;
+  margin-right: 20px;
+  
+  
 }
 .chat-word {
   background-color: #ffffff;
   border: 1px solid #d8d2d2;
-  text-align: left;
   padding: 10px 10px;
   border-radius: 5px;
   margin: 0 20px 10px 30px;
-  width: 50%;
+  /* width: 50%; */
 }
 
 .input {
