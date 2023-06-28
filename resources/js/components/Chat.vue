@@ -55,9 +55,18 @@ export default {
     };
     
   },
-
+  watch: {
+    '$route.params': {
+      immediate: true, // 初期値も監視対象に含める場合はtrue
+      handler(newParams, oldParams) {
+        // paramsの変更があった場合に実行される処理
+        this.fetchMessages();
+        console.log('paramsが変更されました:', newParams, oldParams);
+      }
+    }
+  },
   mounted() {
-    this.fetchMessages();
+   
     console.log('コンソメ');
     window.Echo.private('chat').listen('ChatEvent', (e) => {
       this.chat.message.push(e.message);
