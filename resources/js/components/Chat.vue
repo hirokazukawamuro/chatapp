@@ -11,7 +11,7 @@
     </div>
     <div class="user-area">
       <div class="parts">
-        <input type="text" name="message" placeholder="Type your message here.." v-model="message" class="input">
+        <input type="text" name="message" placeholder="Type your message here.." v-model="message" class="input" @keyup.enter="send">
         <!-- @keypress="send"  -->
         <button @click="send" class="sendbutton">
           SEND
