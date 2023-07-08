@@ -21,7 +21,6 @@ export default {
         // handle success
         this.users = response.data.users; // users配列を受け取る
         this.currentUserId = response.data.currentUserId;
-        console.log(response.data);
       })
       .catch(error => {
         // handle error
@@ -80,17 +79,19 @@ li{
 }
 .parentBox{
   display: flex;
+  height: 100vh;
 }
 .childrenBox1 {
   width: calc( 100% / 4*1 );
   background-color: #fdffff;
   border:1px solid #000000;
   overflow-y: scroll;
-  height: 550px;
+  height:100%;
 }
 .childrenBox2 {
   width: calc( 100% / 4*3 );
   background-color: #e5e3e3;
   border:1px solid #000000;
+  height:100%;
 }
 </style>

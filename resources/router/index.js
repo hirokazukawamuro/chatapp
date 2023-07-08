@@ -7,9 +7,7 @@ const router = createRouter({
       name: "Chat",
       component: () => import("../js/components/Chat.vue"),
       props:true,
-    }
-  
-      
+    } 
   ],
 });
 

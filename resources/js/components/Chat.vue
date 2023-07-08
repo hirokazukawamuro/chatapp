@@ -9,7 +9,8 @@
         <span class="chat-word" >{{ message.message }}</span>
       </div>
     </div>
-    <div class="user-area">
+  </div>
+  <div class="user-area">
       <div class="parts">
         <input type="text" name="message" placeholder="Type your message here.." v-model="message" class="input" @keyup.enter="send">
         <!-- @keypress="send"  -->
@@ -17,13 +18,11 @@
           SEND
         </button>
       </div>
-    </div>
   </div>
 </template>
 
 <script>
 import { ref } from 'vue';
-import Echo from 'laravel-echo';
 
 export default {
   name: 'Chat',
@@ -66,11 +65,8 @@ export default {
     }
   },
   mounted() {
-   
-    console.log('コンソメ');
     window.Echo.private('chat').listen('ChatEvent', (e) => {
       this.chat.message.push(e.message);
-      console.log(e);
       this.fetchMessages();
     });
   },
@@ -158,9 +154,10 @@ export default {
 }
 
 .input {
-  width: 83%;
+  width: 60%;
   border-radius: 20px;
-  margin-right: 3%;
+  margin-right: 2%;
+  margin-left: 3%;
   border: 1px solid #d8d2d2;
 }
 ::placeholder {
@@ -168,7 +165,7 @@ export default {
 }
 
 .sendbutton {
-  width: 10%;
+  width: 7%;
   background-color: black;
   font-family: fantasy;
   color: #fcf9f9;
@@ -178,7 +175,7 @@ export default {
 
 .message-container {
   overflow-y: scroll;
-  height: 550px;
+  height:90%;
 }
 
 .who-you-talkto {
@@ -189,16 +186,20 @@ export default {
   background-color: #e5e3e3;
   padding: 9px 30px 15px 0px;
   border-bottom: thin solid #000000;
+  position: sticky;
+  top:0px;
 }
 
 .user-area {
-  width: 100%;
+  width:100%;
   background-color: #fcf9f9;
-  padding: 9px 30px 9px 0px;
+  padding: 5px 30px 9px 0px;
+  position: fixed;
+  bottom:0;
 }
 
 .parts {
-  text-align: end;
+  text-align:left;
   width: 100%;
   margin: 5px;
 }
