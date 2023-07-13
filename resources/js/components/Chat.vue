@@ -50,7 +50,6 @@ export default {
       chat: {
         message: [],
       },
-      alignright: ref(false),
     };
     
   },

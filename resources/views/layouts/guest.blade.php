@@ -21,7 +21,7 @@
         <div>
             <a href="/">
                 <x-application-logo />
-                <!-- <h1 class="w-20 h-20 fill-current text-gray-500">HELLO FRIEND</h1> -->
+
             </a>
         </div>
 
