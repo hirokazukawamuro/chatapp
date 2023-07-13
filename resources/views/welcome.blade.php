@@ -404,7 +404,7 @@
             @endif
             @endauth
 
-            <a href=# class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Guest Login</a>
+            <a href="{{ url('/guest') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Guest Login</a>
         </div>
         <div><x-entry-svg /></div>
         @endif
