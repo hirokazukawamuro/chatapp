@@ -71,7 +71,7 @@ export default {
   },
   methods: {
     isCurrentUser(userId) {
-    return userId === parseInt(this.userId);
+    return userId === this.userId;
   },
     send() {
       if (this.message.length !== 0) {
