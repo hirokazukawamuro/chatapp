@@ -1,7 +1,7 @@
 <template>
   <div class="message-container" ref="messageContainer">
     <div :key="selectedUserName" class="who-you-talkto">
-      {{ "＜ " + selectedUserName }}
+      <button>＜{{ selectedUserName }}</button>
     </div>
     <div v-for="message in chat.message" :key="message.id" class="message-parent" :class="[isCurrentUser(message.user.id) ? 'align-right' : '']">
       <div class="message-content">
@@ -13,7 +13,6 @@
   <div class="user-area">
       <div class="parts">
         <input type="text" name="message" placeholder="Type your message here.." v-model="message" class="input" @keyup.enter="send">
-        <!-- @keypress="send"  -->
         <button @click="send" class="sendbutton">
           SEND
         </button>

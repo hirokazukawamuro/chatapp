@@ -38,7 +38,7 @@ export default {
 <template>
   <div class="parentBox">
 
-    <div class="childrenBox1" :class="[isActive ? 'smp1' : '']">
+    <div class="childrenBox1">
       <h1>TALK ROOM</h1>
         <ul>
           <li v-for="user in users" :key="user.id">
@@ -96,12 +96,11 @@ li{
 }
 
 @media screen and (max-width: 500px) {
-  .smp1 {
-        width: 100% ;
+  .childrenBox1 {
+        width:100%;
     }
-
-  .smp2 {
-      width: 100% ;
-  }
+    .childrenBox2{
+      width:0px;
+    }
 }
 </style>

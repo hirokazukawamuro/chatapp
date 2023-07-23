@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GuestLoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/guest', function () {
-    return view('dashboard');
-});
+Route::get('/guest', [GuestLoginController::class, 'guestLogin'])->name('guest.login');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
