@@ -1,27 +1,26 @@
 <template>
-  <div class="message-container" ref="messageContainer">
-    <div :key="selectedUserName" class="who-you-talkto">
-      <button>＜{{ selectedUserName }}</button>
-    </div>
-    <div v-for="message in chat.message" :key="message.id" class="message-parent" :class="[isCurrentUser(message.user.id) ? 'align-right' : '']">
-      <div class="message-content">
-        <span class="sender-name">{{ getMessageSenderName(message.user.id) }}</span>
-        <span class="chat-word" >{{ message.message }}</span>
+    <div class="message-container" ref="messageContainer">
+      <div :key="selectedUserName" class="who-you-talkto">
+        {{ selectedUserName }}
+      </div>
+      <div v-for="message in chat.message" :key="message.id" class="message-parent" :class="[isCurrentUser(message.user.id) ? 'align-right' : '']">
+        <div class="message-content">
+          <span class="sender-name">{{ getMessageSenderName(message.user.id) }}</span>
+          <span class="chat-word" >{{ message.message }}</span>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="user-area">
-      <div class="parts">
-        <input type="text" name="message" placeholder="Type your message here.." v-model="message" class="input" @keyup.enter="send">
-        <button @click="send" class="sendbutton">
-          SEND
-        </button>
-      </div>
-  </div>
+    <div class="user-area">
+        <div class="parts">
+          <input type="text" name="message" placeholder="Type your message here.." v-model="message" class="input" @keyup.enter="send">
+          <button @click="send" class="sendbutton">
+            SEND
+          </button>
+        </div>
+    </div>
 </template>
 
 <script>
-import { ref } from 'vue';
 
 export default {
   name: 'Chat',
@@ -42,6 +41,7 @@ export default {
       type: Array,
       required: true,
     },
+  
   },
   data() {
     return {
@@ -160,10 +160,10 @@ export default {
 }
 ::placeholder {
   color: #d8d2d2;
-}
-
-.sendbutton {
+}.sendbutton {
   width: 7%;
+
+
   background-color: black;
   font-family: fantasy;
   color: #fcf9f9;
@@ -182,7 +182,7 @@ export default {
   font-size: 25px;
   font-weight: 400;
   background-color: #e5e3e3;
-  padding: 9px 30px 15px 0px;
+  padding: 9px 30px 15px 30px;
   border-bottom: thin solid #000000;
   position: sticky;
   top:0px;
@@ -201,4 +201,14 @@ export default {
   width: 100%;
   margin: 5px;
 }
+
+@media screen and (max-width: 500px) {
+  .sendbutton {
+  width: 24%;
+  }
+  .input {
+  width: 70%;
+  }
+}
+
 </style>

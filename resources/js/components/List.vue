@@ -7,7 +7,10 @@ export default {
       users: [],
       currentUserId: 0,
       selectedUserName: '',
+      lookList:false,
+      lookChat:false,
     };
+
   },
   
   mounted() {
@@ -30,6 +33,9 @@ export default {
   methods: {
     selectUser(userName) { // 追加: ユーザ名を選択するメソッド
       this.selectedUserName = userName;
+      this.lookList = !this.lookList;
+      this.lookChat = !this.lookChat;
+
     },
     
   },
@@ -38,7 +44,7 @@ export default {
 <template>
   <div class="parentBox">
 
-    <div class="childrenBox1">
+    <div class="childrenBox1" :class="{ active1: lookList}">
       <h1>TALK ROOM</h1>
         <ul>
           <li v-for="user in users" :key="user.id">
@@ -51,8 +57,8 @@ export default {
         </ul>
     </div>
     
-    <div  class="childrenBox2">
-      <router-view :selectedUserName="selectedUserName" :users="users" ref="child"></router-view>
+    <div  class="childrenBox2" :class="{ active2: lookChat}">
+      <router-view :selectedUserName="selectedUserName" :users="users" ref="child" :class="{ active2: lookChat}"></router-view>
     </div>
 
   </div>
@@ -97,10 +103,18 @@ li{
 
 @media screen and (max-width: 500px) {
   .childrenBox1 {
-        width:100%;
+  width:100%;
+}
+.childrenBox2 {
+  width: 0%;
+}
+
+  .active1 {
+        width:0%;
     }
-    .childrenBox2{
-      width:0px;
+  .active2{
+      width:100%;
     }
 }
+
 </style>
