@@ -1,7 +1,7 @@
 <template>
     <div class="message-container" ref="messageContainer">
       <div :key="selectedUserName" class="who-you-talkto">
-        {{ selectedUserName }}
+        <a href="/dashboard">＜{{ selectedUserName }}</a>
       </div>
       <div v-for="message in chat.message" :key="message.id" class="message-parent" :class="[isCurrentUser(message.user.id) ? 'align-right' : '']">
         <div class="message-content">
@@ -58,7 +58,6 @@ export default {
       handler(newParams, oldParams) {
         // paramsの変更があった場合に実行される処理
         this.fetchMessages();
-        console.log('paramsが変更されました:', newParams, oldParams);
       }
     }
   },
@@ -81,15 +80,11 @@ export default {
             userId: this.userId,
           })
           .then((response) => {
-            console.log(response);
             this.message = ''; // 入力欄をクリア
 
             // 送信したメッセージを追加する代わりに、メッセージ一覧を再取得して更新
             this.fetchMessages();
           })
-          .catch((error) => {
-            console.log(error);
-          });
       }
     },
 
@@ -103,11 +98,13 @@ export default {
         })
         .then((response) => {
           this.chat.message = response.data.messages;
-          console.log(this.chat.message);
           this.$nextTick(() => {
             this.scrollToBottom();
           });
-        });
+        })
+        .catch((error) => {
+            alert("このページは表示できません");
+          });
     },
 
     scrollToBottom() {

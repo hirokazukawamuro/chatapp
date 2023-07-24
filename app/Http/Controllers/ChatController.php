@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\ChatEvent;
 use App\Models\Message;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -28,7 +29,9 @@ class ChatController extends Controller
     {
         $userId = $request->input('userId');
         $linkId = $request->input('linkId');
-
+        if (Auth::id() != $userId && Auth::id() != $linkId) {
+            throw new Exception;
+        }
         $messages = Message::with('user')
             ->where('user_id', $userId)
             ->where('link_id', $linkId)

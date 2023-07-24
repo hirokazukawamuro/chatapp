@@ -25,10 +25,6 @@ export default {
         this.users = response.data.users; // users配列を受け取る
         this.currentUserId = response.data.currentUserId;
       })
-      .catch(error => {
-        // handle error
-        console.log(error);
-      });
   },
   methods: {
     selectUser(userName) { // 追加: ユーザ名を選択するメソッド
