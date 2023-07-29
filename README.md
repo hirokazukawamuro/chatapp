@@ -1,3 +1,5 @@
+<a href="https://projects.breezegroup.jp/">こちらから実際のアプリをご覧下さい。
+</a>
 <li>まずはじめに</li>
 <p>こちらは<b>HELLO FRIEND</b>というリアルタイムチャットアプリです。</p>
 <br>
